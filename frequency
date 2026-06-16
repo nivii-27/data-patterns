@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+
+void findHighestFrequency(char *line) {
+    int count[256] = {0};
+    int max_freq = 0;
+
+    for (int i = 0; line[i] != '\0'; i++) {
+        char ch = line[i];
+        if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+            count[(unsigned char)ch]++;
+            if (count[(unsigned char)ch] > max_freq) {
+                max_freq = count[(unsigned char)ch];
+            }
+        }
+    }
+
+    if (max_freq == 0) {
+        printf("\n");
+        return;
+    }
+
+    for (char ch = 'A'; ch <= 'Z'; ch++) {
+        if (count[(unsigned char)ch] == max_freq) {
+            printf("%c", ch);
+        }
+    }
+
+    for (char ch = 'a'; ch <= 'z'; ch++) {
+        if (count[(unsigned char)ch] == max_freq) {
+            printf("%c", ch);
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    char line[1024];
+
+    if (scanf("%d", &n) != 1) {
+        return 1;
+    }
+    
+    while (getchar() != '\n');
+
+    for (int i = 0; i < n; i++) {
+        if (fgets(line, sizeof(line), stdin) != NULL) {
+            line[strcspn(line, "\n")] = '\0';
+            findHighestFrequency(line);
+        }
+    }
+
+    return 0;
+}
