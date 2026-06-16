@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* mergeTrees(struct Node* root1, struct Node* root2) {
+    if (root1 == NULL) {
+        return root2;
+    }
+    if (root2 == NULL) {
+        return root1;
+    }
+
+    root1->data += root2->data;
+
+    root1->left = mergeTrees(root1->left, root2->left);
+    root1->right = mergeTrees(root1->right, root2->right);
+
+    return root1;
+}
+
+void printInorder(struct Node* node) {
+    if (node == NULL) {
+        return;
+    }
+    printInorder(node->left);
+    printf("%d ", node->data);
+    printInorder(node->right);
+}
+
+int main() {
+    struct Node* root1 = createNode(1);
+    root1->left = createNode(3);
+    root1->right = createNode(2);
+    root1->left->left = createNode(5);
+
+    struct Node* root2 = createNode(2);
+    root2->left = createNode(1);
+    root2->right = createNode(3);
+    root2->left->right = createNode(4);
+    root2->right->right = createNode(7);
+
+    struct Node* mergedRoot = mergeTrees(root1, root2);
+
+    printf("Inorder traversal of merged tree: ");
+    printInorder(mergedRoot);
+    printf("\n");
+
+    return 0;
+}
