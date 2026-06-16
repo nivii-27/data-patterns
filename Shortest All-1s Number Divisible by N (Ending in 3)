@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int findShortestAllOnes(int N) {
+    if (N % 10 != 3) {
+        printf("Error: Input number must end with the digit 3.\n");
+        return -1;
+    }
+
+    int remainder = 0;
+    int count = 0;
+
+    do {
+        remainder = (remainder * 10 + 1) % N;
+        count++;
+    } while (remainder != 0);
+
+    return count; /
